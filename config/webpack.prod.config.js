@@ -79,7 +79,6 @@ const buildProd = async function () {
   const appPath = process.cwd();
   const crimsonConfig = require(path.join(appPath, Crimson_CONFIG));
   // const _webpackProdConfig = await webpackProdConfig(cdnFolderName, crimsonConfig.RES_PATH_PROD || '');
-  //数知梦 CI/CD 有特殊限制，无法修改 打包后的路径 这个资源文件夹也应该不会变了 暂时写死
   const _webpackProdConfig = await webpackProdConfig(cdnFolderName, '/assets');
 
   return new Promise((resolve, reject) => {

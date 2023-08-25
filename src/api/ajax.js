@@ -68,21 +68,6 @@ export default function ajax(url, params = {}, method = 'get', headers = {}, req
                 openUrl = urlJoin(openUrl, '_t=' + now);
             }
 
-            //可以 const NODE_ENV = process.env.NODE_ENV，直接取值。
-            //这里先绕一下吧，跑命令的时候 可以看到输出当前是啥环境，不容易搞错值，QAQ
-            // if (currentEnvironment === 'test') {
-            //     openUrl = 'https://custom-webapi-test.ibuscloud.com/' + openUrl
-            // }
-
-            // else if (currentEnvironment === 'production') {    
-            //     openUrl = 'https://customapi.ibuscloud.com/' + openUrl
-            // }
-            // else if (currentEnvironment === 'development') {
-            //     //  开发环境好像 不需要？？？？  看数知梦后台怎么搞吧
-            //     openUrl = 'https://custom-webapi-dev.ibuscloud.com/' + openUrl
-            // }
-            // openUrl = 'http://192.168.0.120:8087/' + openUrl
-            openUrl = 'https://custom-webapi-dev.ibuscloud.com/' + openUrl
             xhr.timeout = 10000;
 
             xhr.open(method, openUrl, true);
