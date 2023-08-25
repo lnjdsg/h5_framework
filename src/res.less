@@ -1,0 +1,21 @@
+@RES_PATH: '/src/assets/';
+@webp: '?x-oss-process=image/format,webp';
+.crimsonBg(@value) {
+  background: url("@{RES_PATH}@{value}") no-repeat top left / 100% 100%;
+}
+
+.webpBg(@value){
+  .crimsonBg("@{value}");
+  [sdzl-webp='true'] & {
+    .crimsonBg("@{value}@{webp}");
+  }
+}
+.borderStyleLeft{
+  border-top:1px solid #e5e5e5;
+  border-right:1px solid #e5e5e5;
+}
+
+.borderStyleRight{
+  border-top: 1px solid #e5e5e5;
+}
+

@@ -1,0 +1,51 @@
+
+#toast_layer {
+	position: absolute;
+	left: 0;
+	top: 0;
+	box-sizing: border-box;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	display: -webkit-flex;
+	justify-content: center;
+	-webkit-justify-content: center;
+	align-items: center;
+	-webkit-align-items: center;
+
+	.wrapper {
+		display: flex;
+		display: -webkit-flex;
+		justify-content: center;
+		-webkit-justify-content: center;
+		flex-direction: column;
+		-webkit-flex-direction: column;
+		align-items: center;
+		-webkit-align-items: center;
+		max-width: 80%;
+
+		.toast-message {
+			opacity: 0;
+			margin-bottom: 10px;
+			font-size: 0;
+			transition: opacity 0.3s;
+			-webkit-transition: opacity 0.3s;
+			background-color: rgba(0, 0, 10, 0.8);
+			box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.2);
+			-webkit-box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.2);
+			border-radius: 60px;
+
+			.toast-content {
+				display: inline-block;
+				overflow: hidden;
+				padding: 20px 25px;
+				font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+				color: #fff;
+				font-size: 30px;
+				text-align: center;
+				max-width: 100%;
+				overflow-wrap: anywhere;
+			}
+		}
+	}
+}
