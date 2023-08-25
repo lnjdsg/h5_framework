@@ -14,7 +14,5 @@
 
 ### registry = https://registry.npm.taobao.org/
 
-### 埋点SDK 采用友盟H5 https://mp.umeng.com/setting/auth
-
 ### npm i安装依赖，如有版本兼容问题！运行npm install --legacy-peer-deps 兼容升降版本冲突
 
