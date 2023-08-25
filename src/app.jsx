@@ -10,7 +10,6 @@ import {
 } from "./utils/utils";
 
 
-
 /**
 * 所有页面场景
 */
@@ -20,7 +19,6 @@ const pageMap = {
 
 };
 const App = observer(() => {
- 
 
   const { curPage } = store;
   return (
