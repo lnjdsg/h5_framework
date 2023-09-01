@@ -19,7 +19,7 @@ async function webPerformance() {
     };
     // 运行 Lighthouse，对指定的网址进行性能检测
     const runnerResult = await lighthouse(
-        'https://dynamicbus-test.ibuscloud.com/index.html?latitude=30.295672&longitude=120.047501&token=CEEECCF6DBE6D4231FC11A5F0E91A68546DC46717101D4AC3D65913419954071&mo=17671277857&uid=21802&type=zfbmini_hangzhou',
+        'https://xxx.com',
         options
     );
     // console.log('runnerResult:', runnerResult)

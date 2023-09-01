@@ -23,7 +23,7 @@ const initAssetList = {
 //         port: chrome.port // 使用 Chrome 实例的端口
 //     };
 //     // 运行 Lighthouse，对指定的网址进行性能检测
-//     const runnerResult = await lighthouse('https://cloudbush5-test.ibuscloud.com/index.html?pageType%3D3%26openId%3DohCeO4iMqbBzB0hZB99dp-KC7Jzc%26mobile%3D18210980398%26userToken%3D17BE37383AE011C55C8EA4112A31BDE06BDD2775627695AE7C4C9649493747A2%26staffToken%3D4fe5e2a0af335bbbded9bab665a9ee31%26userId%3D21781%26companyCode%3D000166%26entrance%3Dindex%26enterpriseName%3Dybc18210980398%26fullAddress%3Dnull%26enterpriseCreditCode%3D91330109MA2H130J56', options);
+//     const runnerResult = await lighthouse('', options);
 //     // 将生成的报告写入文件
 //     const reportHtml = runnerResult.report;
 //     fs.writeFileSync('webPerformance.html', reportHtml);
