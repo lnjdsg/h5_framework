@@ -12,7 +12,6 @@
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@tweenjs/tween.js": "^19.0.0",
-    "@uiw/react-amap": "^5.0.0",
     "antd-mobile": "^5.22.0",
     "chalk": "^4.1.0",
     "chrome-launcher": "^0.14.2",
@@ -39,9 +38,7 @@
     "react-redux": "^8.0.5",
     "react-router": "^6.11.2",
     "react-router-dom": "^6.11.2",
-    "remove": "^0.1.5",
-    "three": "^0.155.0",
-    "vconsole": "^3.15.1"
+    "remove": "^0.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
