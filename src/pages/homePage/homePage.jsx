@@ -12,7 +12,7 @@ import { frontendMonitoring } from "frontend-lnjdsg";
 const HomePage = memo(() => {
 
   useEffect(() => {
-    // frontendMonitoring()
+    modalStore.pushPop('AuthorizePop')
   }, [])
 
   return useObserver(() => (

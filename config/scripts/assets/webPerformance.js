@@ -19,7 +19,7 @@ async function webPerformance() {
     };
     // 运行 Lighthouse，对指定的网址进行性能检测
     const runnerResult = await lighthouse(
-        'https://xxx.com',
+        'https://www.baidu.com',
         options
     );
     // console.log('runnerResult:', runnerResult)
