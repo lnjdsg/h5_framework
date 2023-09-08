@@ -22,3 +22,12 @@
 
 ### npm i安装依赖，如有版本兼容问题！运行npm install --legacy-peer-deps 兼容升降版本冲突
 
+### 本地webPerformance.html demo
+
+![image](https://github.com/lnjdsg/Crimson_h5framework/assets/57169482/88551bd3-a209-499a-9b71-ed05cdd4950a)
+
+### 性能检测 eg
+![image](https://github.com/lnjdsg/Crimson_h5framework/assets/57169482/dd1bfd9a-0c4f-43b7-8676-664f032ab2cd)
+
+
+
