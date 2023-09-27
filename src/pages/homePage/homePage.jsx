@@ -8,22 +8,20 @@ import { toJS } from 'mobx';
 import { RES_PATH } from '../../../crimsonrc'
 import modalStore from "@src/store/modal";
 import API from "@src/api";
-const HomePage = memo(() => {
+import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from "react-router-dom";
 
+const HomePage = memo(() => {
+  const navigate = useNavigate();
   useEffect(() => {
-    const fetchData = async () => {
-      let info = await API.getInfo()
-      console.log("info:", info)
-      if (info.success) {
-        modalStore.pushPop('AuthorizePop')
-      }
-    }
-    fetchData()
+    
   }, [])
 
   return useObserver(() => (
-    <div className="homePage" >
-
+    <div className="homePage"
+      onClick={() => {
+        navigate("/customPage?type=1");
+      }}
+    >
     </div>
   ));
 
