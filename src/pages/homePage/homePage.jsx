@@ -8,23 +8,25 @@ import { toJS } from 'mobx';
 import { RES_PATH } from '../../../crimsonrc'
 import modalStore from "@src/store/modal";
 import API from "@src/api";
-import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const HomePage = memo(() => {
+const HomePage = observer(() => {
   const navigate = useNavigate();
   useEffect(() => {
-    
-  }, [])
+    //这里做一些类似定时器开关的逻辑
+    if(!store.pagehidden){
+      console.log('HomePage')
+    }
+  }, [store.pagehidden])
 
   return useObserver(() => (
     <div className="homePage"
       onClick={() => {
-        navigate("/customPage?type=1");
+        navigate("/customPage?type=1", { replace: true });
       }}
     >
     </div>
   ));
-
 })
 
 export default HomePage;

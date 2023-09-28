@@ -11,7 +11,7 @@ const CustomPage = () => {
   const type = searchParams.get("type");
   console.log('type:',type)
   useEffect(() => {
-   
+    console.log('CustomPage')
   }, [])
 
   return useObserver(() => (

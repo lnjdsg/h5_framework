@@ -4,7 +4,7 @@ import modalStore from './modal';
 const store = makeAutoObservable({
   /** 当前页面 */
   curPage: 'customPage',
-  
+  pagehidden:false,
   
 })
 export default store; 
