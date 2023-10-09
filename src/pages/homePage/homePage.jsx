@@ -14,7 +14,7 @@ const HomePage = observer(() => {
   const navigate = useNavigate();
   useEffect(() => {
     //这里做一些类似定时器开关的逻辑
-    if(!store.pagehidden){
+    if (!store.pagehidden) {
       console.log('HomePage')
     }
   }, [store.pagehidden])
@@ -22,7 +22,7 @@ const HomePage = observer(() => {
   return useObserver(() => (
     <div className="homePage"
       onClick={() => {
-        navigate("/customPage?type=1", { replace: true });
+        navigate("/customPage?formPage=homePage", { replace: false });
       }}
     >
     </div>

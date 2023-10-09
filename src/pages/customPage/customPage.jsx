@@ -8,8 +8,8 @@ import { BrowserRouter as Router, Route, Routes, Link, useNavigate,useLocation }
 const CustomPage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const type = searchParams.get("type");
-  console.log('type:',type)
+  const formPage = searchParams.get("formPage");
+  console.log('formPage:',formPage)
   useEffect(() => {
     console.log('CustomPage')
   }, [])
