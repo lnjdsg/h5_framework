@@ -12,6 +12,17 @@ import { useNavigate } from "react-router-dom";
 
 const HomePage = observer(() => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let info = await API.getInfo()
+      if (info.success) {
+        modalStore.pushPop('AuthorizePop')
+      }
+    }
+    fetchData()
+  }, [])
+
   useEffect(() => {
     //这里做一些类似定时器开关的逻辑
     if (!store.pagehidden) {

@@ -11,14 +11,14 @@ const AuthorizePop = () => {
     const [select, setSelect] = useState(true)
     const agree = _throttle(async () => {
         console.log('同意开通')
-       
+
     }, 2000)
 
     return (
         <div className="authorizePopBox">
             <span className="authorizePopBox_title">{"title"}</span>
             <span className="authorizePopBox_desc">{"desc"}</span>
-            <span className="authorizePopBox_privacy">已阅读<span className="bule">《用户协议和隐私政策》</span></span>
+            <span className="authorizePopBox_privacy"><span className="bule"></span></span>
             {select ? <div className="authorizePopBox_select" onClick={() => {
                 setSelect(false)
             }}> </div> : <div className="authorizePopBox_unselect"

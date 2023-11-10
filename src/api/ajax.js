@@ -47,7 +47,7 @@ export default function ajax(url, params = {}, method = 'get', headers = {}, req
                     body = params;
                     break;
             }
-
+            headers['Cache-Control'] = "max-age=0"
             headers['userToken'] = getUrlParam('userToken') || "";
             headers['userId'] = getUrlParam('userId') || "";
             headers['staffToken'] = getUrlParam('staffToken') || "";

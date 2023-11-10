@@ -7,7 +7,7 @@ import CustomPage from "@src/pages/customPage/customPage";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import store from "./store";
 import monitorDisplayHide from "./utils/handleVisibilityChange";
-
+import Modal from "./modal/modal";
 /**
 * 所有页面场景
 */
@@ -20,12 +20,15 @@ const App = observer(() => {
   monitorDisplayHide()
 
   return useObserver(() => (
-    <HashRouter>
-      <Routes>
-        <Route path="/" element={pageMap.homePage} />
-        <Route path="/customPage" element={pageMap.customPage} />
-      </Routes>
-    </HashRouter>
+    <>
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={pageMap.homePage} />
+          <Route path="/customPage" element={pageMap.customPage} />
+        </Routes>
+      </HashRouter>
+      <Modal />
+    </>
   ));
 });
 const root = ReactDOM.createRoot(document.getElementById("root"));
