@@ -4,6 +4,7 @@
  */
 import { currentEnvironment } from '../../config/scripts/assets/currentEnvironment';
 import jsmd5 from 'js-md5';
+const currentEnvironment = process.env.NODE_ENV;
 /**
  * ajax请求
  * @param url

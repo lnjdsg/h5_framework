@@ -139,6 +139,9 @@ module.exports = function (isProd) {
             ].filter(Boolean),
         },
         plugins: [
+            new webpack.DefinePlugin({
+                'process.env.NODE_ENV': `'${env}'`
+            }),
             isProd &&
             //css还是抽离吧，单独导出在dist/styles文件夹
             new MiniCssExtractPlugin({

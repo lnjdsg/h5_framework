@@ -75,6 +75,6 @@ const assetList = searchFileFromFolder();
 // 写资源列表json 开发环境预处理
 fs.writeFileSync(path.resolve('.') + '/src/assetList.json', JSON.stringify(assetList))
 // cross-env NODE_ENV= 修改 当前环境域名
-fs.writeFileSync(path.resolve('.') + '/config/scripts/assets/currentEnvironment.js', `exports.currentEnvironment = ${JSON.stringify(process.env.NODE_ENV)}`)
+// fs.writeFileSync(path.resolve('.') + '/config/scripts/assets/currentEnvironment.js', `exports.currentEnvironment = ${JSON.stringify(process.env.NODE_ENV)}`)
 // console.log(chalk.red(`开始性能检测`));
 // webPerformance()
