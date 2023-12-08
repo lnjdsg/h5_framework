@@ -2,7 +2,7 @@
 /**
  * Created by 六年级的时光 on 2023/4/09.
  */
-import { currentEnvironment } from '../../config/scripts/assets/currentEnvironment';
+// import { currentEnvironment } from '../../config/scripts/assets/currentEnvironment';
 import jsmd5 from 'js-md5';
 const currentEnvironment = process.env.NODE_ENV;
 /**

@@ -2,6 +2,7 @@
  * Created by 六年级的时光 on 2023/4/13.
  */
 const path = require('path');
+const webpack = require('webpack');
 const { Crimson_CONFIG_DIR_KEY, Crimson_CONFIG } = require('./scripts/constant');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -11,8 +12,8 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 const fs = require('fs-extra');
 //暂时不引用happyPack了  没有不要， Build completed in 3.5s
-module.exports = function (isProd) {
-
+module.exports = function (env) {
+    const isProd = env === 'production';
     const appPath = process.cwd();
     const crimsonConfig = require(path.join(appPath, Crimson_CONFIG));
     const cssReg = /\.(css|less)$/;
