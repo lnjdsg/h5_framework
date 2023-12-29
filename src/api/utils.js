@@ -102,13 +102,12 @@ export function generateAPI(apiList) {
                     return ({ success: false, data: '' });
                 }
             }
-            const mergedHeaders = { ...mHeaders, ...headers, userToken: getUrlParam('token') || "", userId: getUrlParam('userId') || "" }
-            // const mergedHeaders = { ...mHeaders, ...headers }
+            const mergedHeaders = { ...mHeaders, ...headers }
+
             if (withToken && token) {
                 params.token = token;
             }
-
-            // params = { ...params, ...mergeData };
+           
             //简单点 暂时不拼接分享参数
             params = { ...params }
 

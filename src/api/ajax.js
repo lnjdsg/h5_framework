@@ -4,7 +4,6 @@
  */
 import { currentEnvironment } from '../../config/scripts/assets/currentEnvironment';
 import jsmd5 from 'js-md5';
-// const currentEnvironment = process.env.NODE_ENV;
 /**
  * ajax请求
  * @param url
@@ -48,13 +47,6 @@ export default function ajax(url, params = {}, method = 'get', headers = {}, req
                     body = params;
                     break;
             }
-            headers['Cache-Control'] = "max-age=0"
-            headers['userToken'] = getUrlParam('userToken') || "";
-            headers['userId'] = getUrlParam('userId') || "";
-            headers['staffToken'] = getUrlParam('staffToken') || "";
-            // headers['appKey'] = 'custombus-js';
-
-            document.cookie = "SESSION=NjQzOGVlMTMtODNmMC00ZTMyLWFlYjItNDc0ZWVjNWI5YzRh"
 
             let openUrl = url;
             let urlProcess = window['url_process'];
