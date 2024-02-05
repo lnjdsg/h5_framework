@@ -2,8 +2,7 @@
 const { buffer: imagemin } = require("imagemin");
 // const imageminJpegtran = require("imagemin-jpegtran-cn");
 // const imageminPngquant = require("imagemin-pngquant-cn");
-// "imagemin-jpegtran-cn": "^7.0.2",
-// "imagemin-pngquant-cn": "^9.0.1",
+
 const COMPRESS_TYPE = {
 	builtin: 'builtin',
 	tinypng: 'tinypng',
