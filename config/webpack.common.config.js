@@ -14,6 +14,7 @@ const fs = require('fs-extra');
 //暂时不引用happyPack了  没有不要， Build completed in 3.5s
 module.exports = function (env) {
     const isProd = env === 'production';
+    
     const appPath = process.cwd();
     const crimsonConfig = require(path.join(appPath, Crimson_CONFIG));
     const cssReg = /\.(css|less)$/;

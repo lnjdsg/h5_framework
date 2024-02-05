@@ -10,6 +10,7 @@ const { uploadFiles } = require("./autoupload");
 const { getCdnFolderName } = require('./utils');
 const { tinypPngMin } = require('./tinyPng');
 
+
 const assets = async function (args) {
     const { imgmin, imgup } = args;
     const cdnFolderName = await getCdnFolderName();
@@ -26,6 +27,8 @@ const assets = async function (args) {
     if (fs.existsSync(assetsPathTo)) {
         fs.removeSync(assetsPathTo);
     }
+    const npm_lifecycle_event = process.env.npm_lifecycle_event
+    console.log('npm_lifecycle_event:', npm_lifecycle_event)
 
     console.log(`${chalk.yellow(`开始拷贝资源`)}\n`);
     copyAssets();
@@ -33,11 +36,12 @@ const assets = async function (args) {
     if (imgmin) {
         console.log(`${chalk.yellow(`资源开始压缩`)}\n`);
         try {
-            console.log('assetsPathTo:',assetsPathTo)
-            console.log('assetsPathFrom:',assetsPathFrom)
-            tinypPngMin(assetsPathFrom,assetsPathTo)
-
-            // console.log('assetsPathTo', assetsPathTo)
+            console.log('assetsPathTo:', assetsPathTo)
+            console.log('assetsPathFrom:', assetsPathFrom)
+            if (npm_lifecycle_event == "build_prod") {
+                console.log(`${chalk.bgGreen(`正式环境 压缩图片`)}\n`);
+                tinypPngMin(assetsPathFrom, assetsPathTo)
+            }
             // const result = await startCompress(assetsPathTo);
             // if (result) {
             //     console.log(`${chalk.blue(`资源压缩完成，${assetsPathTo}`)}\n`);
