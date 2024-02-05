@@ -9,6 +9,7 @@ exports.startCompress = async function (altasPath) {
 
 	const imagePArr = images.map((img) => {
 		return (async () => {
+			return true
 			const buffer = await fs.readFile(img);
 			const result = await compressImage(buffer, 'builtin').catch(() => {
 				console.log(chalk.red("压缩图片失败:" + img));

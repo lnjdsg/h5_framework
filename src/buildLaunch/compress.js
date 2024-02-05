@@ -1,14 +1,15 @@
 
 const { buffer: imagemin } = require("imagemin");
-const imageminJpegtran = require("imagemin-jpegtran-cn");
-const imageminPngquant = require("imagemin-pngquant-cn");
-
+// const imageminJpegtran = require("imagemin-jpegtran-cn");
+// const imageminPngquant = require("imagemin-pngquant-cn");
+// "imagemin-jpegtran-cn": "^7.0.2",
+// "imagemin-pngquant-cn": "^9.0.1",
 const COMPRESS_TYPE = {
 	builtin: 'builtin',
 	tinypng: 'tinypng',
 }
 
-function compressImage(buffer, type = "builtin") {
+function compressImage(buffer, type = "builtin") { 
 	if (!COMPRESS_TYPE[type]) {
 		type = COMPRESS_TYPE.builtin;
 	}

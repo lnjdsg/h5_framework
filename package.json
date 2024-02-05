@@ -23,8 +23,7 @@
     "history": "^4.10.1",
     "ignore-loader": "^0.1.2",
     "imagemin": "^7.0.1",
-    "imagemin-jpegtran-cn": "^7.0.2",
-    "imagemin-pngquant-cn": "^9.0.1",
+
     "js-md5": "^0.7.3",
     "lighthouse": "^7.5.0",
     "mobx": "^6.2.0",
