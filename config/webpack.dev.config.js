@@ -10,6 +10,7 @@ const opn = require("opn");
 const apiMocker = require('mocker-api');
 const path = require('path');
 const { getProcessIdOnPort } = require("./scripts/utils");
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const crimsonConfig = require(path.resolve(Crimson_CONFIG));
 const webpackDevConfig = function () {
   return {
@@ -19,10 +20,17 @@ const webpackDevConfig = function () {
       hot: true,
       host: "0.0.0.0",
       //主要还是防止ip6的跨域问题，导致[WDS] Disconnected!断开
-      headers:{
-        'Access-Control-Allow-Origin':'*',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
       },
       before(app) {
+        app.use('/v2/GetInfo/Notice', createProxyMiddleware({
+          target: 'http://220.178.249.25:5006/GetInfo/Notice?begin=1&size=5&_t=1712459810131',
+          // changeOrigin: true,
+          // pathRewrite: {
+          //   '^/v2/GetInfo/Notice': ''
+          // },
+        }));
         if (crimsonConfig.API_MOCK) {
           //返回预制的后端接口格式
           apiMocker(app, path.resolve('./mock/index.js'), {
@@ -49,7 +57,7 @@ const buildDev = async function (config) {
     const server = new WebpackDevServer(compiler, devServerOptions);
     if (getProcessIdOnPort(port)) {
       reject(`端口 ${port} 已被使用`);
-      
+
     } else {
       server.listen(
         port || 8088,

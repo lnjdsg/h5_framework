@@ -15,6 +15,21 @@ const HomePage = observer(() => {
 
   useEffect(() => {
     const fetchData = async () => {
+      try {
+        let data = await API.notices()
+        // const response = await fetch('http://220.178.249.25:5006/GetInfo/Notice?begin=1&size=5');
+        // const data = await response.json();
+        console.log("这里可以处理返回的数据:", data); // 这里可以处理返回的数据
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
       let info = await API.getInfo()
       if (info.success) {
         modalStore.pushPop('AuthorizePop')
