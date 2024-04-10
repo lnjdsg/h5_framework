@@ -29,7 +29,25 @@ export {
   buryPointExposure,//曝光买单
   sendPV,
   getTimeDifference,//约时间
-  toYuan
+  toYuan,
+  handleFontSize
+}
+
+/**
+ * @微信重置字体大小
+ */
+const handleFontSize = () => {
+  if (typeof WeixinJSBridge !== "undefined" && typeof WeixinJSBridge.invoke == "function") {
+    WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+    WeixinJSBridge.on('menu:setfont', function () {
+      WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+    });
+  } else {
+    document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+  }
+  window.onload = function () {
+    document.body.style.cssText = "-webkit-text-size-adjust: 100% !important;"
+  }
 }
 
 const animate = () => {
@@ -42,7 +60,7 @@ const animate = () => {
  * @param price 价格
  * @param count 位数
  */
- const toYuan = (price, count = 2) => {
+const toYuan = (price, count = 2) => {
   if ((price / 100 + '').indexOf('.') === -1) {
     return (price / 100)
   } else {
@@ -220,7 +238,7 @@ function getCookie(cookieName) {
  * @param {string} name
  */
 function getUrlParam(name) {
-  const search = decodeURIComponent(window.location.search) ;
+  const search = decodeURIComponent(window.location.search);
   const matched = search
     .slice(1)
     .match(new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i'));

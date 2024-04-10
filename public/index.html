@@ -20,35 +20,9 @@
     </script> -->
 
     <script>
-        //微信重置字体大小
-        function handleFontSize() {
-            if (typeof WeixinJSBridge !== "undefined" && typeof WeixinJSBridge.invoke == "function") {
-                WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
-                WeixinJSBridge.on('menu:setfont', function () {
-                    WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
-                });
-            } else {
-                document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
-            }
-        }
-        handleFontSize();
-        window.onload = function () {
-            document.body.style.cssText = "-webkit-text-size-adjust: 100% !important;"
-        }
-    </script>
-    <script>
         !(function (e, i) { var t = e.documentElement, n = navigator.userAgent.match(/iphone|ipod|ipad/gi), a = n ? Math.min(i.devicePixelRatio, 3) : 1, m = "orientationchange" in window ? "orientationchange" : "resize"; t.dataset.dpr = a; for (var d, l, c = !1, o = e.getElementsByTagName("meta"), r = 0; r < o.length; r++) { (l = o[r]), "viewport" == l.name && ((c = !0), (d = l)) } if (c) { d.content = "width=device-width,initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0,user-scalable=no" } else { var o = e.createElement("meta"); (o.name = "viewport"), (o.content = "width=device-width,initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0,user-scalable=no"), t.firstElementChild.appendChild(o) } var s = function () { var e = t.clientWidth; var dw = window['designWidth'] || 750; e / a > dw && (e = dw * a), (window.remScale = e / dw), (t.style.fontSize = 100 * (e / dw) + "px") }; s(), e.addEventListener && i.addEventListener(m, s, !1) })(document, window);
     </script>
 
-    <script>
-        function getUrlParam(name) {
-            var search = window.location.search;
-            var matched = search
-                .slice(1)
-                .match(new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i'));
-            return search.length ? matched && matched[2] : null;
-        }
-    </script>
     <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
 </head>
 

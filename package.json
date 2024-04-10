@@ -22,6 +22,7 @@
     "frontend-lnjdsg": "^1.0.2",
     "fs-extra": "^9.0.1",
     "history": "^4.10.1",
+    "http-proxy-middleware": "^3.0.0",
     "ignore-loader": "^0.1.2",
     "imagemin": "^7.0.1",
     "js-md5": "^0.7.3",

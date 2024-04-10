@@ -8,6 +8,7 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 import store from "./store";
 import monitorDisplayHide from "./utils/handleVisibilityChange";
 import Modal from "./modal/modal";
+import { handleFontSize } from "./utils/utils";
 /**
 * 所有页面场景
 */
@@ -17,8 +18,13 @@ const pageMap = {
 };
 
 const App = observer(() => {
-  monitorDisplayHide()
+ 
+  useEffect(() => {
+    handleFontSize()
+  }, [])
 
+  monitorDisplayHide()
+  
   return useObserver(() => (
     <>
       <HashRouter>
