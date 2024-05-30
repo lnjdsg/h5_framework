@@ -9,6 +9,8 @@ import store from "./store";
 import monitorDisplayHide from "./utils/handleVisibilityChange";
 import Modal from "./modal/modal";
 import { handleFontSize } from "./utils/utils";
+import ErrorBoundary from "./errorBoundary/errorBoundary";
+
 /**
 * 所有页面场景
 */
@@ -18,15 +20,15 @@ const pageMap = {
 };
 
 const App = observer(() => {
- 
+
   useEffect(() => {
     handleFontSize()
   }, [])
 
   monitorDisplayHide()
-  
-  return useObserver(() => (
-    <>
+
+  return useObserver(() => {
+    return <ErrorBoundary>
       <HashRouter>
         <Routes>
           <Route path="/" element={pageMap.homePage} />
@@ -34,8 +36,8 @@ const App = observer(() => {
         </Routes>
       </HashRouter>
       <Modal />
-    </>
-  ));
+    </ErrorBoundary>
+  });
 });
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);

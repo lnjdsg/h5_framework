@@ -14,6 +14,7 @@ const HomePage = observer(() => {
   const navigate = useNavigate();
 
   useEffect(() => {
+
     const fetchData = async () => {
       try {
         let data = await API.notices()
@@ -30,10 +31,10 @@ const HomePage = observer(() => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let info = await API.getInfo()
-      if (info.success) {
-        modalStore.pushPop('AuthorizePop')
-      }
+      // let info = await API.getInfo()
+      // if (info.success) {
+      //   modalStore.pushPop('AuthorizePop')
+      // }
     }
     fetchData()
   }, [])

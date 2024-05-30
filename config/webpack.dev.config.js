@@ -60,11 +60,11 @@ const buildDev = async function (config) {
 
     } else {
       server.listen(
-        port || 8088,
+        port || 8058,
         "0.0.0.0",
         () => {
           console.log(`Starting server on http://localhost:${port}`);
-          opn(`http://localhost:${port || 8088}`);
+          opn(`http://localhost:${port || 8058}`);
           resolve();
         },
         (err) => {
@@ -76,7 +76,7 @@ const buildDev = async function (config) {
   });
 };
 const args = process.argv.splice(2);
-const port = args[0] || 8088
+const port = args[0] || 8058
 buildDev({
   port: Number(port)
 })
