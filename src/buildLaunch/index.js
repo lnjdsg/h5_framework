@@ -38,10 +38,10 @@ const assets = async function (args) {
         try {
             console.log('assetsPathTo:', assetsPathTo)
             console.log('assetsPathFrom:', assetsPathFrom)
-            if (npm_lifecycle_event == "build_prod") {
-                console.log(`${chalk.bgGreen(`正式环境 压缩图片`)}\n`);
-                tinypPngMin(assetsPathFrom, assetsPathTo)
-            }
+            // if (npm_lifecycle_event == "build_prod") {
+            console.log(`${chalk.bgGreen(`正式环境 压缩图片`)}\n`);
+            tinypPngMin(assetsPathFrom, assetsPathTo)
+            // }
             // const result = await startCompress(assetsPathTo);
             // if (result) {
             //     console.log(`${chalk.blue(`资源压缩完成，${assetsPathTo}`)}\n`);
