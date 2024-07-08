@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-size: 24px;
+  width: 100%;
+  height: 100%;
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+  -moz-text-size-adjust: 100% !important;
+
+  // ::-webkit-scrollbar {
+  //   display: none;
+  //   width: 0px;
+  // }
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+
+.updataAni {
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+
+  from {
+    transform: rotate(0);
+    -ms-transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -o-transform: rotate(0);
+    -moz-transform: rotate(0)
+  }
+
+  to {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -moz-transform: rotate(360deg)
+  }
+}
+
+

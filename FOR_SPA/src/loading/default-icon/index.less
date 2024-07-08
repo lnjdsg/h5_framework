@@ -1,0 +1,41 @@
+@size: 12px;
+
+.sui-default-icon {
+	margin-bottom: 80px;
+	padding-right: @size;
+
+	@keyframes part-body {
+		0%, 40% {
+			transform: scale(1);
+		}
+		20% {
+			transform: scale(1.5);
+		}
+	}
+
+	@-webkit-keyframes part-body {
+		0%, 40% {
+			-webkit-transform: scale(1);
+		}
+		20% {
+			-webkit-transform: scale(1.5);
+		}
+	}
+
+	.part {
+		transform-origin: (@size/2) (@size * 3);
+		-webkit-transform-origin: (@size/2) (@size * 3);
+		position: absolute;
+	}
+
+	.part-body {
+		background-color: white;
+		width: @size;
+		height: (@size / 2 * 3);
+		border-radius: (@size/2);
+		transform-origin: (@size/2) (@size / 2 * 3);
+		-webkit-transform-origin: (@size/2) (@size / 2 * 3);
+		animation: part-body 1500ms linear infinite;
+		-webkit-animation: part-body 1500ms linear infinite;
+	}
+}
