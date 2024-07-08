@@ -1,4 +1,4 @@
-### @Author by 六年级的时光  Date 2023.04.25
+### @Author by 六年级的时光  Date 2024.07.08 MPA模式
 
 ### H5移动端开发解决方案
 ### 内置性能检测 错误检测 lighthouse集成 npm run 路径/webPerformance.js
