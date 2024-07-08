@@ -42,7 +42,7 @@ const buildDev = async function (config) {
   return new Promise((resolve, reject) => {
     //合并公共配置和开发环境的配置
     const config = WebpackMerge(webpackBaseConfig(false), webpackDevConfig());
-    console.log('config:',config)
+    // console.log('config:',config)
     const compiler = Webpack(config);
     const devServerOptions = Object.assign({}, config.devServer);
     console.log('devServerOptions', devServerOptions);
@@ -56,8 +56,8 @@ const buildDev = async function (config) {
         port || 8088,
         "0.0.0.0",
         () => {
-          console.log(`Starting server on http://localhost:${port}/homePage.html`);
-          opn(`http://localhost:${port || 8088}/homePage.html`);
+          console.log(`Starting server on http://localhost:${port}/home.html`);
+          opn(`http://localhost:${port || 8088}/home.html`);
           resolve();
         },
         (err) => {

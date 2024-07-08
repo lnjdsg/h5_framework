@@ -3,7 +3,7 @@ const glob = require("glob");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require('path');
 
-const setMPA = () => {
+const mpaConfig = () => {
 
     const entry = {};
     const htmlWebpackPlugins = [];
@@ -42,5 +42,5 @@ const setMPA = () => {
         htmlWebpackPlugins
     }
 }
-module.exports = setMPA
+module.exports = mpaConfig
 

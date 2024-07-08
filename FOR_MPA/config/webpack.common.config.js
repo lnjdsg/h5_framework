@@ -10,12 +10,12 @@ const TerserPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 const fs = require('fs-extra');
-const setMPA = require('./setMpa');
+const mpaConfig = require('./mpaConfig');
 
 //暂时不引用happyPack了  没有不要， Build completed in 3.5s
 module.exports = function (isProd) {
 
-    const { entry, htmlWebpackPlugins } = setMPA();
+    const { entry, htmlWebpackPlugins } = mpaConfig();
     console.log('entryentryentry:', entry)
     // if(Object.keys(entry).length == 0){
     //     return 
