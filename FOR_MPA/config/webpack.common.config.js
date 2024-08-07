@@ -16,10 +16,7 @@ const mpaConfig = require('./mpaConfig');
 module.exports = function (isProd) {
 
     const { entry, htmlWebpackPlugins } = mpaConfig();
-    console.log('entryentryentry:', entry)
-    // if(Object.keys(entry).length == 0){
-    //     return 
-    // }
+    console.log('找到的打包入口:', entry)
 
     const appPath = process.cwd();
     const crimsonConfig = require(path.join(appPath, Crimson_CONFIG));
@@ -27,9 +24,7 @@ module.exports = function (isProd) {
     // 处理相对路径
     Crimson_CONFIG_DIR_KEY.map((key) => {
         crimsonConfig[key] = path.resolve(appPath, crimsonConfig[key]);
-
     });
-
 
     const stylePlugins = [
         //自动管理浏览器前缀

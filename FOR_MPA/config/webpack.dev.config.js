@@ -45,7 +45,7 @@ const buildDev = async function (config) {
     // console.log('config:',config)
     const compiler = Webpack(config);
     const devServerOptions = Object.assign({}, config.devServer);
-    console.log('devServerOptions', devServerOptions);
+    // console.log('devServerOptions', devServerOptions);
 
     const server = new WebpackDevServer(compiler, devServerOptions);
     if (getProcessIdOnPort(port)) {

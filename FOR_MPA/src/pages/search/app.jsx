@@ -3,8 +3,7 @@ import ReactDOM from "react-dom/client";
 import { observer } from "mobx-react";
 import "./app.less";
 
-
-import HomePage from "../../views/searchView/searchPage/searchPage";
+import HomePage from "../../views/homeView/homePage/homePage";
 import SearchPage from "../../views/searchView/searchPage/searchPage";
 import store from "@src/store";
 import Modal from "@src/modal/modal";
