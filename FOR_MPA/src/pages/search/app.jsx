@@ -4,10 +4,9 @@ import { observer } from "mobx-react";
 import "./app.less";
 
 
-import HomePage from ".";
-import SearchPage from ".";
+import HomePage from "../../views/searchView/searchPage/searchPage";
+import SearchPage from "../../views/searchView/searchPage/searchPage";
 import store from "@src/store";
-import modalStore from "@src/store/modal";
 import Modal from "@src/modal/modal";
 
 /**
@@ -18,7 +17,6 @@ const pageMap = {
   searchPage: <SearchPage />,
 };
 const App = observer(() => {
-
   const { curPage } = store;
   return (
     <Fragment>
