@@ -16,10 +16,12 @@ const mpaConfig = () => {
     Object.keys(entryFiles)
         .map((index) => {
             const entryFile = entryFiles[index];
-            const regex = /\\pages\\([^\\]+)\\app\.jsx$/;
-            const match = entryFile.match(regex);
-            const pageName = match && match[1];
+            const folderNames = entryFiles.map(p => path.basename(path.dirname(p)));
+            console.log('pageName:', folderNames)
+            const pageName = folderNames[index]
+
             entry[pageName] = entryFile;
+
             htmlWebpackPlugins.push(
                 new HtmlWebpackPlugin({
                     template: path.join(appPath, `src/pages/${pageName}/index.html`),
