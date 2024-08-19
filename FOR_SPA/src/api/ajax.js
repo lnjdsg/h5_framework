@@ -1,197 +1,147 @@
-
-/**
- * Created by 六年级的时光 on 2023/4/09.
- */
 import { currentEnvironment } from '../../config/scripts/assets/currentEnvironment';
 import jsmd5 from 'js-md5';
+
 /**
- * ajax请求
- * @param url
- * @param params
- * @param method
- * @param headers
- * @param requestContentType
- * @param secret 是否加密
- * @param secretKey 加密key
+ * 发送 HTTP 请求
+ * @param {string} url - 请求的 URL
+ * @param {Object} [params={}] - 请求参数
+ * @param {string} [method='GET'] - 请求方法 ('GET' 或 'POST')
+ * @param {Object} [headers={}] - 请求头
+ * @param {string} [requestContentType='form'] - 请求内容类型 ('form', 'json', 'plain')
+ * @param {boolean} [secret=false] - 是否加密
+ * @param {string} [secretKey] - 加密 key
+ * @returns {Promise<string>} - 返回响应文本的 Promise
  */
-export default function ajax(url, params = {}, method = 'get', headers = {}, requestContentType = 'form', secret = false, secretKey) {
-    return new Promise((resolve, reject) => {
-        let xhr;
-        if (window["XMLHttpRequest"]) {
-            xhr = new XMLHttpRequest();
+export default async function fetchRequest(url, params = {}, method = 'GET', headers = {}, requestContentType = 'form', secret = false, secretKey) {
+    try {
+        // 处理请求参数
+        params = JSON.parse(JSON.stringify(params)); // 过滤掉 undefined
+        const isGet = method.toUpperCase() === 'GET';
+        let body, now = Date.now();
+
+        // 设置请求体和 Content-Type
+        switch (requestContentType) {
+            case "form":
+                headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                params._t = now;
+                body = paramsToQuery(params, secret, secretKey);
+                break;
+            case "json":
+                headers['Content-Type'] = 'application/json';
+                body = JSON.stringify(params);
+                break;
+            case "plain":
+                headers['Content-Type'] = 'text/plain';
+                body = params;
+                break;
+            default:
+                throw new Error(`Unsupported requestContentType: ${requestContentType}`);
         }
-        else if (window["ActiveXObject"]) {
-            xhr = new window["ActiveXObject"](undefined);
+
+        // 处理 URL
+        let openUrl = url;
+        const urlProcess = window['url_process'];
+        if (urlProcess) {
+            openUrl = urlProcess(openUrl);
         }
-        else {
-            alert('no xhr');
+        openUrl = isGet ? urlJoin(openUrl, body) : urlJoin(openUrl, `_t=${now}`);
+
+        // 发送请求
+        const response = await fetch(openUrl, {
+            method: method.toUpperCase(),
+            headers,
+            body: isGet ? undefined : body
+        });
+
+        if (!response.ok) {
+            handleFetchError(response);
         }
-        if (xhr != null) {
-            if (params) {
-                params = JSON.parse(JSON.stringify(params)); //过滤掉undefined
-            }
-            const isGet = method.toUpperCase() === 'GET';
-            let body, now = Date.now();
-            switch (requestContentType) {
-                case "form":
-                    headers['Content-Type'] = 'application/x-www-form-urlencoded';
-                    params._t = now;
-                    body = paramsToQuery(params, secret, secretKey);
-                    break;
-                case "json":
-                    headers['Content-Type'] = 'application/json';
-                    body = JSON.stringify(params);
-                    break;
-                case "plain":
-                    headers['Content-Type'] = 'text/plain';
-                    body = params;
-                    break;
-            }
 
-            let openUrl = url;
-            let urlProcess = window['url_process'];
-            if (urlProcess) {
-                openUrl = urlProcess(openUrl);
-            }
-            if (isGet) {
-                openUrl = urlJoin(openUrl, body);
-
-            }
-            else {
-                openUrl = urlJoin(openUrl, '_t=' + now);
-            }
-
-            xhr.timeout = 10000;
-
-            xhr.open(method, openUrl, true);
-            for (let key in headers) {
-                xhr.setRequestHeader(key, headers[key]);
-            }
-            xhr.responseType = 'text';
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    resolve(xhr.response);
-                }
-            };
-            xhr.onerror = () => {
-                //todo 网络错误，请检查网络是否通畅  最好外面去做这一层toast
-            };
-            xhr.onloadend = () => {
-                const { status } = xhr;
-
-                if (status !== 200) {
-                    // let code = ERRORS.NET_ERROR;
-                    let message = '网络错误，请检查网络是否通畅';
-                    switch (status) {
-                        case 404:
-                            message = url + ' 404 (Not Found)';
-                            break;
-                        case 429: //接口限流
-                            message = '活动太火爆了，请稍后再试~';
-                            try {
-                                const respObj = JSON.parse(xhr.response);
-                                message = respObj.message;
-                            }
-                            catch (e) {
-                            }
-                            break;
-                    }
-                    /*todo 网络错误，请检查网络是否通畅  最好外面去做这一层toast*/
-                    reject();
-                }
-            };
-            xhr.ontimeout = () => {
-                /*请求超时*/
-                reject();
-            };
-            if (isGet) {
-                xhr.send();
-            }
-            else {
-                xhr.send(body);
-            }
-        }
-    });
+        const responseText = await response.text();
+        return responseText;
+    } catch (error) {
+        // 处理网络错误
+        throw new Error(`Network error: ${error.message}`);
+    }
 }
-export function paramsToQuery(params, secret, key) {
+
+/**
+ * 将对象转换为查询字符串
+ * @param {Object} params - 请求参数
+ * @param {boolean|function} secret - 是否加密或加密函数
+ * @param {string} [key] - 加密 key
+ * @returns {string} - 查询字符串
+ */
+function paramsToQuery(params, secret, key) {
     if (params && Object.keys(params).length > 0) {
         if (typeof secret === 'function') {
             params['sign'] = secret(params, key);
-        }
-        else if (secret) {
+        } else if (secret) {
             params['sign'] = signQuery(params, key);
         }
     }
     return obj2query(params);
 }
 
+/**
+ * 生成加密签名
+ * @param {Object} params - 请求参数
+ * @param {string} key - 加密 key
+ * @returns {string} - MD5 签名
+ */
 function signQuery(params, key) {
-    let keys = Object.keys(params);
-    keys.sort();
-    let arr = [];
-    for (let key of keys) {
-        arr.push(key + '=' + params[key]);
-    }
-    arr.push('key=' + key);
-    let query = arr.join('&');
-    return md5(query);
-}
-/**
- * url拼接
- * @ctype PROCESS
- * @description url拼接
- * @param {string} url - url
- * @param {string} query - query
- * @returns
- * url string 拼接后的url
- * @example 一般用法
- * const url = urlJoin('http://baidu.com.cn', 'xxx=hello&xx=777')
- * console.log(url); //http://baidu.com.cn?xxx=hello&xx=777
- */
-export function urlJoin(url, query) {
-    if (query) {
-        url += url.indexOf('?') < 0 ? '?' : '';
-        url += url[url.length - 1] === '?' ? '' : '&';
-        return url + query;
-    }
-    else {
-        return url;
-    }
-}
-/**
- * 对象转query字符串
- * @ctype PROCESS
- * @description 对象转query字符串
- * @param {string} obj - 待转对象
- * @returns
- * queryString string query字符串
- * @example 一般用法
- * const query = obj2query({aaa: 'hello', bb: 123})
- * console.log(query); //aaa=hello&bb=123
- */
-export function obj2query(obj) {
-    if (!obj) {
-        return '';
-    }
-    let arr = [];
-    for (let key in obj) {
-        arr.push(key + (key ? '=' : '') + obj[key]);
-    }
-    return arr.join('&');
+    const sortedKeys = Object.keys(params).sort();
+    const queryString = sortedKeys.map(k => `${k}=${params[k]}`).concat(`key=${key}`).join('&');
+    return md5(queryString);
 }
 
+/**
+ * 拼接 URL 和查询字符串
+ * @param {string} url - 基础 URL
+ * @param {string} [query] - 查询字符串
+ * @returns {string} - 拼接后的 URL
+ */
+function urlJoin(url, query) {
+    if (!query) return url;
+    const separator = url.includes('?') ? '&' : '?';
+    return `${url}${separator}${query}`;
+}
 
 /**
- * MD5
- * @ctype PROCESS
- * @description 获取字符串的md5
- * @param {string} source 源字符串
- * @returns
- * md5 string md5字符串
+ * 将对象转换为查询字符串
+ * @param {Object} obj - 待转对象
+ * @returns {string} - 查询字符串
  */
-export function md5(source) {
+function obj2query(obj) {
+    if (!obj) return '';
+    return Object.entries(obj).map(([key, value]) => `${key}=${value}`).join('&');
+}
+
+/**
+ * 获取字符串的 MD5 值
+ * @param {string} source - 源字符串
+ * @returns {string} - MD5 字符串
+ */
+function md5(source) {
     return jsmd5(source);
 }
 
-
-
+/**
+ * 处理 fetch 错误
+ * @param {Response} response - fetch 的 Response 对象
+ * @throws {Error} - 抛出错误
+ */
+function handleFetchError(response) {
+    let message = 'Network error, please check your connection.';
+    switch (response.status) {
+        case 404:
+            message = `${response.url} 404 (Not Found)`;
+            break;
+        case 429:
+            message = 'The service is too busy, please try again later.';
+            break;
+        default:
+            break;
+    }
+    throw new Error(message);
+}
