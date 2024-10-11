@@ -107,27 +107,30 @@ export function generateAPI(apiList) {
  * @throws {{code:'210003'}} 请求超时
  */
 export function polling(successFunc, uri, params, maxTimes = 10, delay = 500, method = 'get', headers, justData = true) {
-    const pollingPromises = Array.from({ length: maxTimes }, (_, i) => {
+    const promises = Array.from({ length: maxTimes }, (_, i) => {
         return new Promise((resolve) => {
             setTimeout(() => {
-                if (store.EndPolling) {
-                    return resolve();
-                }
-                func().then(resolve);
+                if (store.EndPolling) return resolve(); // 结束轮询
+                func().then(resolve).catch(resolve); // 捕获错误并解决
             }, i * delay);
         });
     });
 
-    return Promise.all(pollingPromises).then((res) => {
-        return res.find(response => response) || Promise.reject('请求失败');
+    return Promise.all(promises).then((results) => {
+        const lastResp = results.find(response => response); // 找到最后一个有效的响应
+        if (lastResp) {
+            return justData ? lastResp.data : lastResp;
+        }
+        throw new Error('请求失败'); // 如果没有有效响应，抛出错误
     });
 
     function func() {
         return callApi(uri, params, method, headers, false).then((resp) => {
             if (successFunc(resp)) {
-                return resp;
+                return resp; // 返回满足条件的响应
             }
-            return null;
+            return null; // 继续轮询
         });
     }
 }
+
