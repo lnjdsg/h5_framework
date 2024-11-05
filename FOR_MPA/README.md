@@ -1,6 +1,9 @@
 ### @Author by 六年级的时光  Date 2024.07.08 MPA模式
 
-### H5移动端开发解决方案
+### H5移动端开发 MPA 解决方案
+
+### 一个多页面打包的框架，满足一次打包多页HTML需求，适用于APP衔接H5的页面中转，以及简单的多页面活动（抽奖，大转盘等）
+
 ### 内置性能检测 错误检测 lighthouse集成 npm run 路径/webPerformance.js
 
 ### 会在更目录下 添加webPerformance.html文件查看性能跑分
