@@ -10,9 +10,9 @@ const CustomPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const formPage = searchParams.get("formPage");
   console.log('formPage:',formPage)
-  useEffect(() => {
-    console.log(aaaaa)
-  }, [])
+  // useEffect(() => {
+  //   console.log(aaaaa)
+  // }, [])
 
   return useObserver(() => (
     <div className="customPage" >
