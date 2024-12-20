@@ -72,7 +72,7 @@ export default async function fetchRequest(url, params = {}, method = 'GET', hea
  * @param {string} [key] - 加密 key
  * @returns {string} - 查询字符串
  */
-function paramsToQuery(params, secret, key) {
+export function paramsToQuery(params, secret, key) {
     if (params && Object.keys(params).length > 0) {
         if (typeof secret === 'function') {
             params['sign'] = secret(params, key);
@@ -89,7 +89,7 @@ function paramsToQuery(params, secret, key) {
  * @param {string} key - 加密 key
  * @returns {string} - MD5 签名
  */
-function signQuery(params, key) {
+export function signQuery(params, key) {
     const sortedKeys = Object.keys(params).sort();
     const queryString = sortedKeys.map(k => `${k}=${params[k]}`).concat(`key=${key}`).join('&');
     return md5(queryString);
@@ -101,7 +101,7 @@ function signQuery(params, key) {
  * @param {string} [query] - 查询字符串
  * @returns {string} - 拼接后的 URL
  */
-function urlJoin(url, query) {
+export function urlJoin(url, query) {
     if (!query) return url;
     const separator = url.includes('?') ? '&' : '?';
     return `${url}${separator}${query}`;
@@ -112,7 +112,7 @@ function urlJoin(url, query) {
  * @param {Object} obj - 待转对象
  * @returns {string} - 查询字符串
  */
-function obj2query(obj) {
+export function obj2query(obj) {
     if (!obj) return '';
     return Object.entries(obj).map(([key, value]) => `${key}=${value}`).join('&');
 }
@@ -122,7 +122,7 @@ function obj2query(obj) {
  * @param {string} source - 源字符串
  * @returns {string} - MD5 字符串
  */
-function md5(source) {
+export function md5(source) {
     return jsmd5(source);
 }
 
@@ -131,7 +131,7 @@ function md5(source) {
  * @param {Response} response - fetch 的 Response 对象
  * @throws {Error} - 抛出错误
  */
-function handleFetchError(response) {
+export function handleFetchError(response) {
     let message = 'Network error, please check your connection.';
     switch (response.status) {
         case 404:

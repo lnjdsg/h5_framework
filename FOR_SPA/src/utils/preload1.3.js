@@ -62,7 +62,7 @@ async function loadOneAsset(url) {
         case (/png|jpg|jpeg/).test(fileType):
             return await loadOneImg(url);
         case (/svga/).test(fileType):
-            return await loadOneSvga(url);
+    
         // case (/spi/).test(fileType):
         //     return await loadOneSpi(url);
         // case (/json/).test(fileType):
@@ -96,14 +96,14 @@ function loadOneImg(url) {
  * 加载一个svga
  * @param {string} url 地址
  */
-// function loadOneSvga(url) {
-//     return new Promise(resolve => {
-//         loadSvga(url).then((data) => resolve(data[0])).catch(err => {
-//             console.warn('load', url, err);
-//             resolve(false)
-//         });
-//     })
-// }
+function loadOneSvga(url) {
+    // return new Promise(resolve => {
+    //     loadSvga(url).then((data) => resolve(data[0])).catch(err => {
+    //         console.warn('load', url, err);
+    //         resolve(false)
+    //     });
+    // })
+}
 
 // /**
 //  * 加载一个spine

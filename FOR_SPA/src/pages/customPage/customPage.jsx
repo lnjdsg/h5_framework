@@ -11,7 +11,7 @@ const CustomPage = () => {
   const formPage = searchParams.get("formPage");
   console.log('formPage:',formPage)
   useEffect(() => {
-    console.log('CustomPage')
+    console.log(aaaaa)
   }, [])
 
   return useObserver(() => (

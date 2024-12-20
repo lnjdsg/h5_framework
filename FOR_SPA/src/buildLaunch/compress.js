@@ -16,10 +16,10 @@ function compressImage(buffer, type = "builtin") {
 		case COMPRESS_TYPE.builtin:
 			return imagemin(buffer, {
 				plugins: [
-					imageminJpegtran(),
-					imageminPngquant({
-						quality: [0.6, 0.8]
-					})
+					// imageminJpegtran(),
+					// imageminPngquant({
+					// 	quality: [0.6, 0.8]
+					// })
 				]
 			});
 	}

@@ -1,7 +1,68 @@
 import store from "@src/store";
-import ajax from "./ajax";
+import ajax, { obj2query, urlJoin } from "./ajax";
 import { Toast } from "@src/toast";
 import { getUrlParam } from "@src/utils/utils";
+
+/**
+ * 添加script
+ * @ctype PROCESS
+ * @description 添加script，可以多个
+ * @param {string} script - js脚本
+ * @param {HTMLElement} [parentNode=document.head] - 父节点
+ * @example 一般用法
+ * appendScript('function test(text){console.log("text:", text)}')
+ * test('hello'); //hello
+ */
+export function appendScript(script, parentNode = document.head) {
+    if (!script) {
+        return {
+            type: 'failed'
+        };
+    }
+    if (script.indexOf('<script') === 0) {
+        let temp = document.createElement('div');
+        temp.innerHTML = script;
+        for (let i = 0, li = temp.children.length; i < li; i++) {
+            const child = temp.children[i];
+            if (child.src) {
+                appendJsScript(child.src, parentNode);
+                i--;
+                li--;
+            }
+            else {
+                evalJsScript(child.innerHTML, parentNode);
+            }
+        }
+    }
+    else {
+        evalJsScript(script, parentNode);
+    }
+}
+
+/**
+ * 动态引入js
+ * @ctype PROCESS
+ * @description 执行js脚本
+ * @param {string} url - js脚本地址
+ * @param {HTMLElement} [parentNode=document.head] - 父节点
+ */
+export function appendJsScript(url, parentNode = document.head) {
+    return new Promise((resolve, reject) => {
+        let scriptEl = document.createElement('script');
+        scriptEl.src = url;
+        scriptEl.onload = function () {
+            document.head.removeChild(scriptEl);
+            resolve(true);
+        };
+        scriptEl.onerror = function () {
+            document.head.removeChild(scriptEl);
+            //这里做错误提示吧
+        };
+        parentNode.appendChild(scriptEl);
+    });
+}
+
+
 
 export default function jsonp(url, params = {}) {
     params._t = Date.now();
@@ -70,10 +131,7 @@ export function generateAPI(apiList) {
         api[key] = async (params = {}, headers) => {
             let token;
             if (withToken) {
-                token = await getPxToken().catch(() => {
-                    console.log('网络异常，请稍后再试~');
-                    return null;
-                });
+
             }
 
             const mergedHeaders = { ...mHeaders, ...headers };

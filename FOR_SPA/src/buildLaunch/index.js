@@ -30,6 +30,8 @@ const assets = async function (args) {
     const npm_lifecycle_event = process.env.npm_lifecycle_event
     console.log('npm_lifecycle_event:', npm_lifecycle_event)
 
+    console.log(`${chalk.green(`eslint 校验通过`)}\n`);
+
     console.log(`${chalk.yellow(`开始拷贝资源`)}\n`);
     copyAssets();
 

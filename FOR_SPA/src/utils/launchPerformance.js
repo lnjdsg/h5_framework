@@ -131,8 +131,8 @@ export const launchPerformance = function () {
         if (!filterateUrl) {
             console.log('本地调试不上报 totalBlockingTime')
         } else {
-            let str = `time=${t}&msg=totalBlockingTime`
-            window?.__bl && window?.__bl.error(new Error(str))
+            // let str = `time=${t}&msg=totalBlockingTime`
+            // window?.__bl && window?.__bl.error(new Error(str))
         }
 
     });
