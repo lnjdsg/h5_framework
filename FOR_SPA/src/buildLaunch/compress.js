@@ -14,6 +14,11 @@ if (os.platform() === 'win32') {
 } else if (os.platform() === 'darwin') {
   // macOS 系统
   pngquantExePath = path.resolve(__dirname, './pngquantExe/macos/pngquant');
+  // 检查并修复文件的执行权限
+  let mode = fs.stat(pngquantExePath).mode
+  if (mode !== 33261) {
+    fs.chmod(pngquantExePath, 33261); // 设置为可执行权限
+  }
 } else {
   // 其他操作系统（比如 Linux）
   console.log('不支持的操作系统');
