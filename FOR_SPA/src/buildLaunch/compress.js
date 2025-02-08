@@ -7,11 +7,10 @@ const fs = require('fs').promises;
 const os = require('os');
 
 let pngquantExePath;
-
 if (os.platform() === 'win32') {
   // Windows 系统
   pngquantExePath = path.resolve(__dirname, './pngquantExe/window/pngquant.exe');
-} else if (os.platform() === 'darwin') {
+} else if (os.platform() == 'darwin') {
   // macOS 系统
   pngquantExePath = path.resolve(__dirname, './pngquantExe/macos/pngquant');
   // 检查并修复文件的执行权限
@@ -19,10 +18,15 @@ if (os.platform() === 'win32') {
   if (mode !== 33261) {
     fs.chmod(pngquantExePath, 33261); // 设置为可执行权限
   }
-} else {
+} else if (os.platform() == "linux") {
   // 其他操作系统（比如 Linux）
-  console.log('不支持的操作系统');
+  pngquantExePath = path.resolve(__dirname, './pngquantExe/linux/pngquant');
+  let mode = fs.stat(pngquantExePath).mode
+  if (mode !== 33261) {
+    fs.chmod(pngquantExePath, 33261); // 设置为可执行权限
+  }
 }
+
 
 console.log('压缩文件执行路径 pngquantExePath:', pngquantExePath)
 
