@@ -6,7 +6,7 @@
     "dev": "cross-env NODE_ENV=development  node ./config/scripts/assets/generateAssetList.js  && node ./config/webpack.dev.config.js",
     "build_dev": "cross-env NODE_ENV=development node ./config/webpack.prod.config.js  ",
     "build_test": "cross-env NODE_ENV=test node ./config/webpack.prod.config.js",
-    "build_prod": "eslint src && node ./config/scripts/assets/index.js && cross-env NODE_ENV=production node ./config/webpack.prod.config.js",
+    "build_prod": "eslint src && node ./config/scripts/assets/index.js imgmin imgup  && cross-env NODE_ENV=production node ./config/webpack.prod.config.js",
     "webPerformance": "  node ./config/scripts/assets/webPerformance.js"
   },
   "dependencies": {

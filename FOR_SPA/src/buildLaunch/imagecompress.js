@@ -1,34 +1,42 @@
 /**
- * Created by 六年级的时光 on 2023/4/05.
+ * Created by 六年级的时光 on 2025/2/8.
  */
 const fs = require("fs-extra");
-const { compressImage, compressSvga } = require('./compress')
+const { compressImage } = require('./compress');
 const chalk = require("chalk");
+
 exports.startCompress = async function (altasPath) {
 	const images = getImgFiles(altasPath);
 
-	const imagePArr = images.map((img) => {
-		return (async () => {
+	// 使用 for...of 循环保证顺序执行
+	for (const img of images) {
+		if (!/\.png$/i.test(img)) {  // 只处理 .png 格式的图片
+			console.log(chalk.yellow(`跳过非PNG文件: ${img}`));
+			continue;  // 跳过非PNG文件
+		}
+		try {
 			const buffer = await fs.readFile(img);
+			// 压缩图片
 			const result = await compressImage(buffer, 'builtin').catch(() => {
 				console.log(chalk.red("压缩图片失败:" + img));
-				return false
+				return false;
 			});
-			const radio = ((1 - result.byteLength / buffer.byteLength) * 100).toFixed(2);
+
 			if (result) {
-				fs.writeFileSync(img, result);
+				// 如果压缩成功，计算压缩率
+				const radio = ((1 - result.byteLength / buffer.byteLength) * 100).toFixed(2);
+				fs.writeFileSync(img, result); // 替换原始图片
+
 				console.log(chalk.red(`压缩前${(buffer.byteLength / 1024).toFixed(0)}k`), chalk.blue(`压缩后${(result.byteLength / 1024).toFixed(0)}k`));
 				console.log(chalk.green("压缩图片成功:" + img), chalk.magentaBright(`压缩率：${radio}`));
-				return true
 			}
-		})();
-	});
+		} catch (error) {
+			console.log(chalk.red(`压缩图片失败: ${img}`));
+		}
+	}
+};
 
-	return await Promise.all([
-		...imagePArr
-	]);
-}
-
+// 获取所有图片文件
 function getImgFiles(dir) {
 	let fileArr = [];
 	if (fs.existsSync(dir)) {
@@ -39,12 +47,9 @@ function getImgFiles(dir) {
 			if (stat.isFile() && /\.jpg|\.png|\.jpeg$/.test(file)) {
 				fileArr.push(fpath);
 			} else if (stat.isDirectory()) {
-				fileArr.push(...getImgFiles(fpath));
+				fileArr.push(...getImgFiles(fpath)); // 如果是文件夹，递归获取
 			}
-		})
+		});
 	}
-	// console.log('fileArr:',fileArr)
 	return fileArr;
 }
-
-
