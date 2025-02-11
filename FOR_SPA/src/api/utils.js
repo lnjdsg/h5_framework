@@ -1,5 +1,5 @@
 import store from "@src/store";
-import ajax, { obj2query, urlJoin } from "./ajax";
+import ajax, { obj2query } from "./ajax";
 import { Toast } from "@src/toast";
 import { getUrlParam } from "@src/utils/utils";
 
@@ -62,8 +62,6 @@ export function appendJsScript(url, parentNode = document.head) {
     });
 }
 
-
-
 export default function jsonp(url, params = {}) {
     params._t = Date.now();
     const realUrl = urlJoin(url, obj2query(params));
@@ -100,7 +98,7 @@ async function callApi(uri, params, method = 'get', headers, justData = true, se
     const responseText = await ajax(uri, params, method, headers, requestContentType, secret, secretKey);
 
     try {
-        const response = JSON.parse(responseText);
+        const response = responseText; // responseText 直接就是对象
         if (justData) {
             return response.success ? response.data : handleErrorResponse(response);
         }
@@ -116,6 +114,7 @@ function handleErrorResponse(response) {
     Toast(response.message || '网络异常，请稍后再试~');
     return { success: false, data: '' };
 }
+
 
 /**
  * 请求API通用处理

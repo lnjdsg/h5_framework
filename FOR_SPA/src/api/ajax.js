@@ -1,5 +1,4 @@
-import { currentEnvironment } from '../../config/scripts/assets/currentEnvironment';
-import jsmd5 from 'js-md5';
+import axios from 'axios';
 
 /**
  * 发送 HTTP 请求
@@ -10,101 +9,57 @@ import jsmd5 from 'js-md5';
  * @param {string} [requestContentType='form'] - 请求内容类型 ('form', 'json', 'plain')
  * @param {boolean} [secret=false] - 是否加密
  * @param {string} [secretKey] - 加密 key
- * @returns {Promise<string>} - 返回响应文本的 Promise
+ * @param {string} [responseType='json'] - 响应类型 ('json', 'blob', etc.)
+ * @returns {Promise<any>} - 返回响应数据
  */
-export default async function fetchRequest(url, params = {}, method = 'GET', headers = {}, requestContentType = 'form', secret = false, secretKey) {
+export default async function ajax(url, params = {}, method = 'GET', headers = {}, requestContentType = 'form', secret = false, secretKey, responseType = 'json') {
     try {
-        // 处理请求参数
-        params = JSON.parse(JSON.stringify(params)); // 过滤掉 undefined
-        const isGet = method.toUpperCase() === 'GET';
-        let body, now = Date.now();
+        // 设置默认请求头
+        headers = { 'Content-Type': 'application/json', ...headers };
 
-        // 设置请求体和 Content-Type
+        // 处理请求参数
+        const isGet = method.toUpperCase() === 'GET';
+        let body;
+
+        // 根据 requestContentType 设置请求体
         switch (requestContentType) {
             case "form":
                 headers['Content-Type'] = 'application/x-www-form-urlencoded';
-                params._t = now;
-                body = paramsToQuery(params, secret, secretKey);
+                body = obj2query(params);  // 如果是 form，转换为 query string
                 break;
             case "json":
-                headers['Content-Type'] = 'application/json';
                 body = JSON.stringify(params);
                 break;
             case "plain":
-                headers['Content-Type'] = 'text/plain';
                 body = params;
                 break;
             default:
                 throw new Error(`Unsupported requestContentType: ${requestContentType}`);
         }
 
-        // 处理 URL
-        let openUrl = url;
-        const urlProcess = window['url_process'];
-        if (urlProcess) {
-            openUrl = urlProcess(openUrl);
-        }
-        openUrl = isGet ? urlJoin(openUrl, body) : urlJoin(openUrl, `_t=${now}`);
-
-        // 发送请求
-        const response = await fetch(openUrl, {
+        // 使用 axios 发送请求
+        const config = {
             method: method.toUpperCase(),
+            url,
             headers,
-            body: isGet ? undefined : body
-        });
+            params: isGet ? params : undefined,  // GET 请求的参数通过 params
+            data: !isGet ? body : undefined,   // 非 GET 请求通过 data
+            responseType,  // 设置响应类型
+        };
 
-        if (!response.ok) {
-            handleFetchError(response);
+        const response = await axios(config);
+
+        // 如果是 Blob 类型，返回 Blob 数据，适用于文件下载等场景
+        if (responseType === 'blob') {
+            return response.data;  // 返回 Blob 数据
         }
 
-        const responseText = await response.text();
-        return responseText;
+        return response.data;  // 对于其他类型的响应，直接返回响应数据
     } catch (error) {
-        // 处理网络错误
-        throw new Error(`Network error: ${error.message}`);
+        // 错误处理
+        console.error('Request failed:', error);
+        throw new Error('请求失败，请稍后再试');
     }
-}
-
-/**
- * 将对象转换为查询字符串
- * @param {Object} params - 请求参数
- * @param {boolean|function} secret - 是否加密或加密函数
- * @param {string} [key] - 加密 key
- * @returns {string} - 查询字符串
- */
-export function paramsToQuery(params, secret, key) {
-    if (params && Object.keys(params).length > 0) {
-        if (typeof secret === 'function') {
-            params['sign'] = secret(params, key);
-        } else if (secret) {
-            params['sign'] = signQuery(params, key);
-        }
-    }
-    return obj2query(params);
-}
-
-/**
- * 生成加密签名
- * @param {Object} params - 请求参数
- * @param {string} key - 加密 key
- * @returns {string} - MD5 签名
- */
-export function signQuery(params, key) {
-    const sortedKeys = Object.keys(params).sort();
-    const queryString = sortedKeys.map(k => `${k}=${params[k]}`).concat(`key=${key}`).join('&');
-    return md5(queryString);
-}
-
-/**
- * 拼接 URL 和查询字符串
- * @param {string} url - 基础 URL
- * @param {string} [query] - 查询字符串
- * @returns {string} - 拼接后的 URL
- */
-export function urlJoin(url, query) {
-    if (!query) return url;
-    const separator = url.includes('?') ? '&' : '?';
-    return `${url}${separator}${query}`;
 }
 
 /**
@@ -114,34 +69,7 @@ export function urlJoin(url, query) {
  */
 export function obj2query(obj) {
     if (!obj) return '';
-    return Object.entries(obj).map(([key, value]) => `${key}=${value}`).join('&');
-}
-
-/**
- * 获取字符串的 MD5 值
- * @param {string} source - 源字符串
- * @returns {string} - MD5 字符串
- */
-export function md5(source) {
-    return jsmd5(source);
-}
-
-/**
- * 处理 fetch 错误
- * @param {Response} response - fetch 的 Response 对象
- * @throws {Error} - 抛出错误
- */
-export function handleFetchError(response) {
-    let message = 'Network error, please check your connection.';
-    switch (response.status) {
-        case 404:
-            message = `${response.url} 404 (Not Found)`;
-            break;
-        case 429:
-            message = 'The service is too busy, please try again later.';
-            break;
-        default:
-            break;
-    }
-    throw new Error(message);
+    return Object.entries(obj)
+        .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+        .join('&');
 }

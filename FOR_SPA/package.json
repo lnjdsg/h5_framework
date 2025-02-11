@@ -14,6 +14,7 @@
     "@mrkwon/tinypng": "^1.0.3",
     "@tweenjs/tween.js": "^19.0.0",
     "antd-mobile": "^5.22.0",
+    "axios": "^1.7.9",
     "chalk": "^4.1.0",
     "chrome-launcher": "^0.14.2",
     "css": "^3.0.0",
