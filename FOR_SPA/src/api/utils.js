@@ -62,12 +62,6 @@ export function appendJsScript(url, parentNode = document.head) {
     });
 }
 
-export default function jsonp(url, params = {}) {
-    params._t = Date.now();
-    const realUrl = urlJoin(url, obj2query(params));
-    return appendJsScript(realUrl);
-}
-
 /**
  * 执行js脚本
  * @param {string} script - 脚本文本

@@ -10,15 +10,21 @@ exports.startCompress = async function (altasPath) {
 
 	// 使用 for...of 循环保证顺序执行
 	for (const img of images) {
-		if (!/\.png$/i.test(img)) {  // 只处理 .png 格式的图片
-			console.log(chalk.yellow(`跳过非PNG文件: ${img}`));
-			continue;  // 跳过非PNG文件
+		let imgType = 'png'
+		if (!/\.(png)$/i.test(img)) {  // 只处理 .png 格式的图片
+			imgType = 'png'
 		}
+
+		if (/\.jpg$/i.test(img) || /\.jpeg$/i.test(img)) {  // 只处理 .jpg 或 .jpeg 格式的图片
+			imgType = 'jpg'
+			// 处理 JPEG 文件
+		}
+
 		try {
 			const buffer = await fs.readFile(img);
 			// 压缩图片
-			const result = await compressImage(buffer, 'builtin').catch(() => {
-				console.log(chalk.red("压缩图片失败:" + img));
+			const result = await compressImage(buffer, 'builtin', imgType).catch(() => {
+				console.log(chalk.bgRedBright("压缩图片失败:" + img));
 				return false;
 			});
 
@@ -26,12 +32,12 @@ exports.startCompress = async function (altasPath) {
 				// 如果压缩成功，计算压缩率
 				const radio = ((1 - result.byteLength / buffer.byteLength) * 100).toFixed(2);
 				fs.writeFileSync(img, result); // 替换原始图片
-
+				console.log(chalk.green("压缩图片成功:" + img));
 				console.log(chalk.red(`压缩前${(buffer.byteLength / 1024).toFixed(0)}k`), chalk.blue(`压缩后${(result.byteLength / 1024).toFixed(0)}k`));
-				console.log(chalk.green("压缩图片成功:" + img), chalk.magentaBright(`压缩率：${radio}`));
+				console.log(chalk.magentaBright(`压缩率：${radio}%`))
 			}
 		} catch (error) {
-			console.log(chalk.red(`压缩图片失败: ${img}`));
+			console.log(chalk.bgRedBright(`压缩图片失败: ${img}`));
 		}
 	}
 };
