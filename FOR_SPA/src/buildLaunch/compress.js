@@ -11,18 +11,18 @@ let jpgquantExePath;
 
 if (os.platform() === 'win32') {
   // Windows 系统
-  pngquantExePath = path.resolve(__dirname, './pngquantExe/window/pngquant.exe');
-  jpgquantExePath = path.resolve(__dirname, './jpgquantExe/window/jpgquant.exe');
+  pngquantExePath = path.resolve(__dirname, '../quantImg/pngquantExe/window/pngquant.exe');
+  jpgquantExePath = path.resolve(__dirname, '../quantImg/jpgquantExe/window/jpgquant.exe');
 } else if (os.platform() == 'darwin') {
   // macOS 系统
-  pngquantExePath = path.resolve(__dirname, './pngquantExe/macos/pngquant');
+  pngquantExePath = path.resolve(__dirname, '../quantImg/pngquantExe/macos/pngquant');
   // 检查并修复文件的执行权限
   let mode = fs.stat(pngquantExePath).mode
   if (mode !== 33261) {
     fs.chmod(pngquantExePath, 33261); // 设置为可执行权限
   }
 
-  jpgquantExePath = path.resolve(__dirname, './jpgquantExe/macos/jpgquant');
+  jpgquantExePath = path.resolve(__dirname, '../quantImg/jpgquantExe/macos/jpgquant');
   // 检查并修复文件的执行权限
   let modeJpg = fs.stat(jpgquantExePath).mode
   if (modeJpg !== 33261) {
@@ -31,13 +31,13 @@ if (os.platform() === 'win32') {
 
 } else if (os.platform() == "linux") {
   // 其他操作系统（比如 Linux）
-  pngquantExePath = path.resolve(__dirname, './pngquantExe/linux/pngquant');
+  pngquantExePath = path.resolve(__dirname, '../quantImg/pngquantExe/linux/pngquant');
   let mode = fs.stat(pngquantExePath).mode
   if (mode !== 33261) {
     fs.chmod(pngquantExePath, 33261); // 设置为可执行权限
   }
 
-  jpgquantExePath = path.resolve(__dirname, './jpgquantExe/linux/jpgquant');
+  jpgquantExePath = path.resolve(__dirname, '../quantImg/jpgquantExe/linux/jpgquant');
   // 检查并修复文件的执行权限
   let modeJpg = fs.stat(jpgquantExePath).mode
   if (modeJpg !== 33261) {
