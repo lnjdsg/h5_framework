@@ -20,7 +20,49 @@
     </script> -->
 
     <script>
-        !(function (e, i) { var t = e.documentElement, n = navigator.userAgent.match(/iphone|ipod|ipad/gi), a = n ? Math.min(i.devicePixelRatio, 3) : 1, m = "orientationchange" in window ? "orientationchange" : "resize"; t.dataset.dpr = a; for (var d, l, c = !1, o = e.getElementsByTagName("meta"), r = 0; r < o.length; r++) { (l = o[r]), "viewport" == l.name && ((c = !0), (d = l)) } if (c) { d.content = "width=device-width,initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0,user-scalable=no" } else { var o = e.createElement("meta"); (o.name = "viewport"), (o.content = "width=device-width,initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0,user-scalable=no"), t.firstElementChild.appendChild(o) } var s = function () { var e = t.clientWidth; var dw = window['designWidth'] || 750; e / a > dw && (e = dw * a), (window.remScale = e / dw), (t.style.fontSize = 100 * (e / dw) + "px") }; s(), e.addEventListener && i.addEventListener(m, s, !1) })(document, window);
+        !(function (e, i) {
+            var t = e.documentElement,
+                // 直接使用设备真实 DPR（限制最大值为 3）
+                a = Math.min(i.devicePixelRatio || 1, 3),
+                m = "orientationchange" in window ? "orientationchange" : "resize";
+
+            t.dataset.dpr = a;
+
+            // 设置设计稿宽度和最大缩放比例
+            var dw = window['designWidth'] || 750;
+            var maxScale = 1.5; // 限制最大缩放比例为 1.5 倍
+
+            // 查找或创建viewport meta标签
+            for (var d, l, c = !1, o = e.getElementsByTagName("meta"), r = 0; r < o.length; r++) {
+                (l = o[r]), "viewport" == l.name && ((c = !0), (d = l));
+            }
+
+            if (c) {
+                d.content = "width=device-width,initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0,user-scalable=no";
+            } else {
+                var o = e.createElement("meta");
+                (o.name = "viewport"),
+                    (o.content = "width=device-width,initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0,user-scalable=no"),
+                    t.firstElementChild.appendChild(o);
+            }
+
+            // 动态计算根字体大小
+            var s = function () {
+                var e = t.clientWidth;
+
+                // 计算缩放比例并限制最大值
+                var scale = Math.min(e / dw, maxScale);
+
+                // 统一使用 100 作为基准系数（避免平板使用过大的基准值）
+                t.style.fontSize = 100 * scale + "px";
+
+                // 保存缩放比例供其他地方使用
+                window.remScale = scale;
+            };
+
+            s(); // 初始化执行
+            e.addEventListener && i.addEventListener(m, s, !1); // 监听窗口变化
+        })(document, window);
     </script>
 
     <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
